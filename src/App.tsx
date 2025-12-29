@@ -1,35 +1,89 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useRef } from "react";
+import { Game } from "./game/Game";
+import { Input } from "./game/Input";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const currentCanvas = canvasRef.current;
+    if (!currentCanvas) return;
+    const canvas = currentCanvas
+
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    const ctx = context
+
+    canvas.width = 800;
+    canvas.height = 600;
+
+    let lastTime = 0;
+    //let x = 100;
+
+    const game = new Game(canvas.width, canvas.height)
+    const input = new Input()
+
+    const handleKeyDown = (e: KeyboardEvent) => input.onKeyDown(e);
+    const handleKeyUp = (e: KeyboardEvent) => input.onKeyUp(e);
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    function loop(time: number) {
+      const delta = time - lastTime;
+      lastTime = time;
+
+      // Clear
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Update
+      // x += 0.1 * delta;
+
+      // if (x > canvas.width) {
+      //   x = -50;
+      // }
+
+      game.update(delta, input);
+      game.draw(ctx);
+
+      // Draw
+      // ctx.fillStyle = "white";
+      // ctx.fillRect(x, 300, 50, 20);
+
+      requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        background: "#111",
+        width: "100vw"
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        style={{
+          border: "1px solid #333",
+          display: "block",
+          margin: "40px auto",
+        }}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
