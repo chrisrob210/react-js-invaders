@@ -30,7 +30,14 @@ export class GameManager {
     static pointsPerEnemy: number = 5;
     static pointsPerUfo: number = 100;
 
-    labelLives = new Label();
+    labelLives: Label;
+    labelScore: Label;
+    labelCurrentWave: Label;
+    labelGameOver: Label;
+    // labelLives = new Label("20px Arial");
+    // labelScore = new Label("20px Arial");
+    // labelCurrentWave = new Label("20px Arial");
+    // labelGameOver = new Label("50px Arial");
 
     // enemy values
     totalEnemies: number = 0;
@@ -66,6 +73,16 @@ export class GameManager {
         this.playerManager = new PlayerManager();
         this.enemyManager = new EnemyManager();
         this.enemyManager.createEnemyGrid();
+
+        // Labels (test)
+        this.labelLives = new Label("20px Arial", "Lives: ", 700, 20);
+        this.labelLives.setColor("white");
+        this.labelScore = new Label("20px Arial", "Score: ", 10, 20);
+        this.labelScore.setColor("white");
+        this.labelCurrentWave = new Label("20px Arial", "Wave: ", 350, 20);
+        this.labelCurrentWave.setColor("white");
+        this.labelGameOver = new Label("50px Arial", "GAME OVER", 700, 20);
+        this.labelGameOver.setColor("red");
 
         // test
         // this.gameObjects.push(new Player());
@@ -104,107 +121,12 @@ export class GameManager {
 
         if (GameManager.pause === true) return;
 
-        // const speed = this.playerSpeed * delta;
-        // this.gameObjects.forEach((gameObject) => {
-        //     gameObject.update(delta, input);
-        // })
+        // Update GameObjects
         this.playerManager.update(delta, input, this.enemyManager.enemies);
         this.enemyManager.update(delta, input);
-        // --- player movement ---
-        // if (input.left) this.state.player.x -= speed;
-        // if (input.right) this.state.player.x += speed;
-        // this.state.player.x = Math.max(0, Math.min(GameManager.screenWidth - this.state.player.width, this.state.player.x));
-
-
-        // --- enemy movement ---
-        // let shouldReverse = false;
-
-        // this.state.enemies.forEach((enemy: EnemyState) => {
-        //     enemy.x += this.enemyDirection * this.enemySpeed * delta;
-
-        //     // check for edge collision
-        //     if (enemy.x <= 0 || enemy.x + enemy.width >= GameManager.screenWidth) {
-        //         shouldReverse = true;
-        //     }
-        // });
-
-        // if (shouldReverse) {
-        //     this.enemyDirection *= -1; // reverse direction
-        //     this.state.enemies.forEach((enemy) => {
-        //         enemy.y += 20; // move down when changing direction
-        //     });
-        // }
-
-        // TODO: player - enemy collision
-        // this.state.enemies.forEach((enemy) => {
-        //     if (hasCollided(this.state.player, enemy)) {
-        //         this.state.lives -= 1;         // lose a life
-        //         console.log("PLAYER HIT! Lives:", this.state.lives);
-
-        //         // reset player position
-        //         this.state.player.x = 375;
-        //         this.state.player.y = 520;
-
-        //         // optional: reset bullets
-        //         this.state.bullets = [];
-
-        //         // check for game over
-        //         if (this.state.lives <= 0) {
-        //             this.state.gameOver = true;
-        //             console.log("GAME OVER");
-        //         }
-        //     }
-        // });
-
-        // --- bullets ---
-        // if (this.shootCooldown > 0) this.shootCooldown -= delta;
-        // if (input.shoot && this.shootCooldown <= 0) {
-        //     this.state.bullets.push({
-        //         x: this.state.player.x + this.state.player.width / 2 - 2.5, // center
-        //         y: this.state.player.y,
-        //         width: 5,
-        //         height: 10,
-        //         speed: 0.5, // pixels per ms
-        //     });
-
-        //     this.shootCooldown = this.shootDelay; // reset cooldown
-        //     input.shoot = false; // one shot per keypress
-        // }
-
-        // move bullets
-        // this.state.bullets.forEach((bullet) => {
-        //     bullet.y -= bullet.speed * delta;
-        // });
-
-        // remove offscreen bullets
-        // this.state.bullets = this.state.bullets.filter((b) => b.y + b.height > 0);
-
-        // --- collision with enemies ---
-        // this.state.enemies = this.state.enemies.filter((enemy) => {
-        //     const hit = this.state.bullets.some((bullet) =>
-        //         hasCollided(bullet, enemy)
-        //     );
-        //     if (hit) {
-        //         // remove bullets that hit this enemy
-        //         this.state.bullets = this.state.bullets.filter(
-        //             (bullet) => !hasCollided(bullet, enemy)
-        //         );
-        //         this.state.score += GameManager.pointsPerEnemy;
-        //     }
-        //     return !hit; // remove enemy if hit
-        // });
-
-        // Increase speed as enemies are cleared
-        // this.remainingEnemies = this.state.enemies.length;
-        // this.enemySpeed =
-        //     this.baseEnemySpeed +
-        //     ((this.totalEnemies - this.remainingEnemies) / this.totalEnemies) * (this.maxEnemySpeed - this.baseEnemySpeed);
-
-
-        // if (this.state.enemies.length === 0 && !this.state.gameOver) {
-        //     this.createNewWave();
-        // }
-
+        this.labelLives.setText("Lives: " + GameManager.lives);
+        this.labelScore.setText("Score: " + GameManager.score);
+        this.labelCurrentWave.setText("Wave: " + GameManager.currentWave);
     }
 
     draw(ctx: CanvasRenderingContext2D) {
@@ -212,9 +134,17 @@ export class GameManager {
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, GameManager.screenWidth, GameManager.screenHeight);
 
+        // Draw GameObjects
         this.playerManager.draw(ctx);
         this.enemyManager.draw(ctx);
 
+        // Labels
+        this.labelLives.draw(ctx);
+        this.labelScore.draw(ctx);
+        this.labelCurrentWave.draw(ctx);
+        if (GameManager.gameOver) {
+            this.labelGameOver.draw(ctx);
+        }
 
         // bullets
         // ctx.fillStyle = "yellow";
@@ -224,28 +154,28 @@ export class GameManager {
 
 
         // --- Lives ---
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
-        ctx.fillText("Lives: " + GameManager.lives, 700, 20);
+        // ctx.fillStyle = "white";
+        // ctx.font = "20px Arial";
+        // ctx.fillText("Lives: " + GameManager.lives, 700, 20);
 
 
         // --- Score ---
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
-        ctx.fillText("Score: " + GameManager.score, 10, 20); // top-right
+        // ctx.fillStyle = "white";
+        // ctx.font = "20px Arial";
+        // ctx.fillText("Score: " + GameManager.score, 10, 20); // top-right
 
         // --- Waves ---
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
-        ctx.fillText("Wave: " + GameManager.currentWave, 350, 20);
+        // ctx.fillStyle = "white";
+        // ctx.font = "20px Arial";
+        // ctx.fillText("Wave: " + GameManager.currentWave, 350, 20);
 
 
         // --- Game Over ---
-        if (GameManager.gameOver) {
-            ctx.fillStyle = "red";
-            ctx.font = "50px Arial";
-            ctx.fillText("GAME OVER", 200, 300);
-        }
+        // if (GameManager.gameOver) {
+        //     ctx.fillStyle = "red";
+        //     ctx.font = "50px Arial";
+        //     ctx.fillText("GAME OVER", 200, 300);
+        // }
     }
 
 
