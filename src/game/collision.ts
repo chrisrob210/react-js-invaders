@@ -1,3 +1,5 @@
+import { GameObject } from "./gameobjects/GameObject";
+
 export interface Rect {
     x: number;
     y: number;
@@ -5,11 +7,11 @@ export interface Rect {
     height: number;
 }
 
-export function hasCollided(a: Rect, b: Rect): boolean {
+export function isCollision(gameObjectA: GameObject, gameObjectB: GameObject): boolean {
     return (
-        a.x < b.x + b.width &&
-        a.x + a.width > b.x &&
-        a.y < b.y + b.height &&
-        a.y + a.height > b.y
+        gameObjectA.x < gameObjectB.x + gameObjectB.width &&
+        gameObjectA.x + gameObjectA.width > gameObjectB.x &&
+        gameObjectA.y < gameObjectB.y + gameObjectB.height &&
+        gameObjectA.y + gameObjectA.height > gameObjectB.y
     );
 }

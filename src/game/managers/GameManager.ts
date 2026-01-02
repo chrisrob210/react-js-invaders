@@ -1,0 +1,225 @@
+import { PlayerManager } from "./PlayerManager";
+import { EnemyManager } from "./EnemyManager";
+import { Input } from "../Input";
+import { GameObject } from "../gameobjects/GameObject";
+import { Label } from "../gameobjects/Label";
+
+export class GameManager {
+    // state: GameState;
+
+    static screenWidth: number = 800;
+    static screenHeight: number = 600;
+
+    gameObjects: GameObject[] = [];
+    playerManager: PlayerManager;
+    enemyManager: EnemyManager;
+
+
+
+    // player values
+    playerSpeed: number = 0.15;
+    shootCooldown: number = 0;
+    shootDelay: number = 300;
+
+    // game values
+    static lives: number = 3;
+    static score: number = 0;
+    static currentWave: number = 1;
+    static gameOver: boolean = false;
+    static pause: boolean = false;
+    static pointsPerEnemy: number = 5;
+    static pointsPerUfo: number = 100;
+
+    labelLives: Label;
+    labelScore: Label;
+    labelCurrentWave: Label;
+    labelGameOver: Label;
+    // labelLives = new Label("20px Arial");
+    // labelScore = new Label("20px Arial");
+    // labelCurrentWave = new Label("20px Arial");
+    // labelGameOver = new Label("50px Arial");
+
+    // enemy values
+    totalEnemies: number = 0;
+    remainingEnemies: number = 0;
+    enemyDirection: 1 | -1 = 1; // 1 = right, -1 = left
+    enemySpeed: number = 0.1;
+    baseEnemySpeed: number = 0.02;
+    maxEnemySpeed: number = 0.5
+
+
+    constructor(canvasWidth: number = 800, canvasHeight: number = 600) {
+        GameManager.screenWidth = canvasWidth;
+        GameManager.screenHeight = canvasHeight;
+
+        // this.state = {
+        //     player: {
+        //         x: 375,
+        //         y: 520,
+        //         width: 50,
+        //         height: 20,
+        //     },
+        //     enemies: [],
+        //     bullets: [],
+        //     lives: 3,
+        //     gameOver: false,
+        //     score: 0,
+        // };
+        this.enemyDirection = 1;
+        this.enemySpeed = 0.1;
+        // this.state.enemies = this.createEnemyGrid(6, 6); // 3 rows, 5 columns
+        // this.totalEnemies = this.state.enemies.length;
+
+        this.playerManager = new PlayerManager();
+        this.enemyManager = new EnemyManager();
+        this.enemyManager.createEnemyGrid();
+
+        // Labels (test)
+        this.labelLives = new Label("20px Arial", "Lives: ", 700, 20);
+        this.labelLives.setColor("white");
+        this.labelScore = new Label("20px Arial", "Score: ", 10, 20);
+        this.labelScore.setColor("white");
+        this.labelCurrentWave = new Label("20px Arial", "Wave: ", 350, 20);
+        this.labelCurrentWave.setColor("white");
+        this.labelGameOver = new Label("50px Arial", "GAME OVER", 700, 20);
+        this.labelGameOver.setColor("red");
+
+        // test
+        // this.gameObjects.push(new Player());
+        // TODO: move this to EnemyManager
+        // this.gameObjects.push(new Enemy());
+
+        // generate enemies
+        // const rows = 3;
+        // const cols = 5;
+        // const spacingX = 80;
+        // const spacingY = 60;
+        // const startX = 100;
+        // const startY = 50;
+
+        // for (let row = 0; row < rows; row++) {
+        //     for (let col = 0; col < cols; col++) {
+        //         this.state.enemies.push({
+        //             color: "green",
+        //             x: startX + col * spacingX,
+        //             y: startY + row * spacingY,
+        //             width: 60,
+        //             height: 30,
+        //         });
+        //     }
+        // }
+
+    }
+
+    update(delta: number, input: Input) {
+        if (GameManager.gameOver) return;
+
+        if (input.pause === true) {
+            GameManager.pause = !GameManager.pause;
+            input.pause = false;
+        }
+
+        if (GameManager.pause === true) return;
+
+        // Update GameObjects
+        this.playerManager.update(delta, input, this.enemyManager.enemies);
+        this.enemyManager.update(delta, input);
+        this.labelLives.setText("Lives: " + GameManager.lives);
+        this.labelScore.setText("Score: " + GameManager.score);
+        this.labelCurrentWave.setText("Wave: " + GameManager.currentWave);
+    }
+
+    draw(ctx: CanvasRenderingContext2D) {
+        // Clear the canvas first!
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, GameManager.screenWidth, GameManager.screenHeight);
+
+        // Draw GameObjects
+        this.playerManager.draw(ctx);
+        this.enemyManager.draw(ctx);
+
+        // Labels
+        this.labelLives.draw(ctx);
+        this.labelScore.draw(ctx);
+        this.labelCurrentWave.draw(ctx);
+        if (GameManager.gameOver) {
+            this.labelGameOver.draw(ctx);
+        }
+
+        // bullets
+        // ctx.fillStyle = "yellow";
+        // this.state.bullets.forEach((b) => {
+        //     ctx.fillRect(b.x, b.y, b.width, b.height);
+        // });
+
+
+        // --- Lives ---
+        // ctx.fillStyle = "white";
+        // ctx.font = "20px Arial";
+        // ctx.fillText("Lives: " + GameManager.lives, 700, 20);
+
+
+        // --- Score ---
+        // ctx.fillStyle = "white";
+        // ctx.font = "20px Arial";
+        // ctx.fillText("Score: " + GameManager.score, 10, 20); // top-right
+
+        // --- Waves ---
+        // ctx.fillStyle = "white";
+        // ctx.font = "20px Arial";
+        // ctx.fillText("Wave: " + GameManager.currentWave, 350, 20);
+
+
+        // --- Game Over ---
+        // if (GameManager.gameOver) {
+        //     ctx.fillStyle = "red";
+        //     ctx.font = "50px Arial";
+        //     ctx.fillText("GAME OVER", 200, 300);
+        // }
+    }
+
+
+    // createEnemyGrid(rows: number, cols: number) {
+    //     const enemies: EnemyState[] = [];
+    //     const spacingX = 60;
+    //     const spacingY = 50;
+    //     const startX = 100;
+    //     const startY = 50;
+
+    //     for (let row = 0; row < rows; row++) {
+    //         for (let col = 0; col < cols; col++) {
+    //             enemies.push({
+    //                 color: "green",
+    //                 x: startX + col * spacingX,
+    //                 y: startY + row * spacingY,
+    //                 width: 30,
+    //                 height: 30,
+    //             });
+    //         }
+    //     }
+
+    //     return enemies;
+    // }
+
+    // createNewWave() {
+    //     // increment wave
+    //     GameManager.currentWave += 1;
+
+    //     // optionally increase difficulty
+    //     const newRows = 3 + Math.floor(GameManager.currentWave / 2); // more rows every 2 waves
+    //     const newCols = 5 + Math.floor(GameManager.currentWave / 3); // more columns every 3 waves
+
+    //     // cap max columns
+    //     const maxCols = 10;
+    //     const cols = Math.min(newCols, maxCols);
+
+    //     // reset enemies
+    //     this.state.enemies = this.createEnemyGrid(newRows, cols);
+
+    //     // optionally increase base speed
+    //     this.baseEnemySpeed += 0.005;
+    //     this.maxEnemySpeed += 0.05;
+
+    //     console.log("Wave", GameManager.currentWave);
+    // }
+}
