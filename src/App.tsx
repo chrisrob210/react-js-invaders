@@ -18,6 +18,7 @@ function App() {
     canvas.height = 600;
 
     let lastTime = 0;
+    let isRunning = false;
     //let x = 100;
 
     const gameManager = new GameManager(canvas.width, canvas.height)
@@ -30,6 +31,7 @@ function App() {
     window.addEventListener("keyup", handleKeyUp);
 
     function loop(time: number) {
+      if (!isRunning) return;
       const delta = time - lastTime;
       lastTime = time;
 
@@ -54,9 +56,11 @@ function App() {
       requestAnimationFrame(loop);
     }
 
+    isRunning = true;
     requestAnimationFrame(loop);
 
     return () => {
+      isRunning = false;
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
