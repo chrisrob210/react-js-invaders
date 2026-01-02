@@ -15,6 +15,9 @@ export class Player extends GameObject {
         if (input.left) this.x -= speedDelta;
         if (input.right) this.x += speedDelta;
         this.x = Math.max(0, Math.min(GameManager.screenWidth - this.width, this.x));
+
+        // TODO: Put Bullet object here
+        // ? This might be the best place for it (maybe?)
     }
 
     draw(ctx: CanvasRenderingContext2D) {
