@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Game } from "./game/Game";
+import { GameManager } from "./game/managers/GameManager";
 import { Input } from "./game/Input";
 
 function App() {
@@ -18,9 +18,10 @@ function App() {
     canvas.height = 600;
 
     let lastTime = 0;
+    let isRunning = false;
     //let x = 100;
 
-    const game = new Game(canvas.width, canvas.height)
+    const gameManager = new GameManager(canvas.width, canvas.height)
     const input = new Input()
 
     const handleKeyDown = (e: KeyboardEvent) => input.onKeyDown(e);
@@ -30,6 +31,7 @@ function App() {
     window.addEventListener("keyup", handleKeyUp);
 
     function loop(time: number) {
+      if (!isRunning) return;
       const delta = time - lastTime;
       lastTime = time;
 
@@ -44,8 +46,8 @@ function App() {
       //   x = -50;
       // }
 
-      game.update(delta, input);
-      game.draw(ctx);
+      gameManager.update(delta, input);
+      gameManager.draw(ctx);
 
       // Draw
       // ctx.fillStyle = "white";
@@ -54,9 +56,11 @@ function App() {
       requestAnimationFrame(loop);
     }
 
+    isRunning = true;
     requestAnimationFrame(loop);
 
     return () => {
+      isRunning = false;
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
