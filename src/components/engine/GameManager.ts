@@ -2,7 +2,7 @@ import { PlayerManager } from "./PlayerManager";
 import { EnemyManager } from "./EnemyManager";
 import { KeyboardInput } from "../../controls/KeyboardInput";
 import { GameObject } from "../gameobjects/GameObject";
-import { Label } from "../gameobjects/Label";
+import { Label } from "../ui/Label";
 
 export class GameManager {
     // state: GameState;
@@ -15,8 +15,6 @@ export class GameManager {
     gameObjects: GameObject[] = [];
     playerManager: PlayerManager;
     enemyManager: EnemyManager;
-
-
 
     // player values
     playerSpeed: number = 0.15;
@@ -36,10 +34,6 @@ export class GameManager {
     labelScore: Label;
     labelCurrentWave: Label;
     labelGameOver: Label;
-    // labelLives = new Label("20px Arial");
-    // labelScore = new Label("20px Arial");
-    // labelCurrentWave = new Label("20px Arial");
-    // labelGameOver = new Label("50px Arial");
 
     // enemy values
     totalEnemies: number = 0;
@@ -54,37 +48,18 @@ export class GameManager {
         GameManager.screenWidth = canvasWidth;
         GameManager.screenHeight = canvasHeight;
 
-        // this.state = {
-        //     player: {
-        //         x: 375,
-        //         y: 520,
-        //         width: 50,
-        //         height: 20,
-        //     },
-        //     enemies: [],
-        //     bullets: [],
-        //     lives: 3,
-        //     gameOver: false,
-        //     score: 0,
-        // };
         this.enemyDirection = 1;
         this.enemySpeed = 0.1;
-        // this.state.enemies = this.createEnemyGrid(6, 6); // 3 rows, 5 columns
-        // this.totalEnemies = this.state.enemies.length;
 
         this.playerManager = new PlayerManager();
         this.enemyManager = new EnemyManager();
         this.enemyManager.createEnemyGrid();
 
         // Labels (test)
-        this.labelLives = new Label("20px Arial", "Lives: ", 700, 20);
-        this.labelLives.setColor("white");
-        this.labelScore = new Label("20px Arial", "Score: ", 10, 20);
-        this.labelScore.setColor("white");
-        this.labelCurrentWave = new Label("20px Arial", "Wave: ", 350, 20);
-        this.labelCurrentWave.setColor("white");
-        this.labelGameOver = new Label("50px Arial", "GAME OVER", 700, 20);
-        this.labelGameOver.setColor("red");
+        this.labelLives = new Label("20px Arial", "Lives: ", 700, 20, "white");
+        this.labelScore = new Label("20px Arial", "Score: ", 10, 20, "white");
+        this.labelCurrentWave = new Label("20px Arial", "Wave: ", 350, 20, "white");
+        this.labelGameOver = new Label("50px Arial", "GAME OVER", 700, 20, "red");
     }
 
     update(delta: number, input: KeyboardInput) {
