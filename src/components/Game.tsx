@@ -14,12 +14,11 @@ export default function Game() {
         if (!context) return;
         const ctx = context
 
-        canvas.width = 800;
-        canvas.height = 600;
+        canvas.width = GameManager.screenWidth;
+        canvas.height = GameManager.screenHeight;
 
         let lastTime = 0;
         let isRunning = false;
-        //let x = 100;
 
         const gameManager = new GameManager(canvas.width, canvas.height)
         const input = new KeyboardInput()
@@ -39,19 +38,8 @@ export default function Game() {
             ctx.fillStyle = "black";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Update
-            // x += 0.1 * delta;
-
-            // if (x > canvas.width) {
-            //   x = -50;
-            // }
-
             gameManager.update(delta, input);
             gameManager.draw(ctx);
-
-            // Draw
-            // ctx.fillStyle = "white";
-            // ctx.fillRect(x, 300, 50, 20);
 
             requestAnimationFrame(loop);
         }
