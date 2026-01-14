@@ -2,13 +2,24 @@ import { GameManager } from "../engine/GameManager";
 import { GameObject } from "./GameObject";
 import { KeyboardInput } from "../../controls/KeyboardInput";
 
+
 export class Enemy extends GameObject {
     x = 0;
     y = 0;
-    width = 30;
-    height = 30;
+    width = 32;
+    height = 32;
     color: string = "green";
     speed: number = 0.15;
+    image: HTMLImageElement;
+
+    constructor(x: number, y: number, image: HTMLImageElement) {
+        super();
+        this.x = x;
+        this.y = y;
+        // this.width = width;
+        // this.height = height;
+        this.image = image;
+    }
 
     setColor(color: string) {
         this.color = color;
@@ -39,12 +50,13 @@ export class Enemy extends GameObject {
     }
 
     draw(ctx: CanvasRenderingContext2D) {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(
-            this.x,
-            this.y,
-            this.width,
-            this.height
-        );
+        // ctx.fillStyle = this.color;
+        // ctx.fillRect(
+        //     this.x,
+        //     this.y,
+        //     this.width,
+        //     this.height
+        // );
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }
