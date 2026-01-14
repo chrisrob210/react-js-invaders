@@ -48,6 +48,9 @@ export class EnemyManager {
         const spacingY = 50;
         const startX = 100;
         const startY = 50;
+        const image = new Image();
+        image.src = "/src/assets/space_crab.png";
+
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
                 // enemies.push({
@@ -57,7 +60,9 @@ export class EnemyManager {
                 //     width: 30,
                 //     height: 30,
                 // });
-                const enemy = new Enemy();
+
+
+                const enemy = new Enemy(startX + col * spacingX, startY + row * spacingY, image);
                 enemy.setX(startX + col * spacingX);
                 enemy.setY(startY + row * spacingY);
                 this.enemies.push(enemy);
