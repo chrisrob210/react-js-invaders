@@ -4,12 +4,19 @@ import { KeyboardInput } from "../../controls/KeyboardInput";
 export class Bullet extends GameObject {
     x = 0;
     y = 0;
-    width = 5;
-    height = 5;
+    width = 6;
+    height = 6;
     color: string = "yellow";
     speed: number = 0.5;
     coolDown: number = 0;
     delay: number = 300;
+    image: HTMLImageElement;
+    imgSrc: string = "/src/assets/bullet.png";
+    constructor() {
+        super();
+        this.image = new Image();
+        this.image.src = this.imgSrc;
+    }
 
     setLocation(playerX: number, playerY: number, playerWidth: number): void {
         this.x = playerX + playerWidth / 2;
@@ -33,13 +40,14 @@ export class Bullet extends GameObject {
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(
-            this.x,
-            this.y,
-            this.width,
-            this.height
-        );
+        // ctx.fillStyle = this.color;
+        // ctx.fillRect(
+        //     this.x,
+        //     this.y,
+        //     this.width,
+        //     this.height
+        // );
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 
     isOffScreen() {
