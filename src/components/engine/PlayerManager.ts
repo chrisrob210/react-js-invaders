@@ -37,7 +37,6 @@ export class PlayerManager {
     detectCollisions(enemies: Enemy[]) {
         const enemiesToRemove: number[] = [];
         const bulletsToRemove: Set<number> = new Set();
-        const enemiesToRemoveObjects: Enemy[] = [];
 
         for (let enemyIndex = 0; enemyIndex < enemies.length; enemyIndex++) {
             const enemy = enemies[enemyIndex];
@@ -55,7 +54,6 @@ export class PlayerManager {
                 if (isCollision(bullet, enemy)) {
                     GameManager.score += GameManager.pointsPerEnemy;
                     enemiesToRemove.push(enemyIndex);
-                    enemiesToRemoveObjects.push(enemy);
                     bulletsToRemove.add(bulletIndex);
                     break; // This bullet hit an enemy, don't check it against more enemies
                 }
