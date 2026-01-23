@@ -93,44 +93,7 @@ export class GameManager {
         this.playerManager.draw(ctx);
         this.enemyManager.draw(ctx);
         this.uiManager.draw(ctx);
-        // Labels
-        // this.labelLives.draw(ctx);
-        // this.labelScore.draw(ctx);
-        // this.labelCurrentWave.draw(ctx);
-        // if (GameManager.gameOver) {
-        //     this.labelGameOver.draw(ctx);
-        // }
 
-        // bullets
-        // ctx.fillStyle = "yellow";
-        // this.state.bullets.forEach((b) => {
-        //     ctx.fillRect(b.x, b.y, b.width, b.height);
-        // });
-
-
-        // --- Lives ---
-        // ctx.fillStyle = "white";
-        // ctx.font = "20px Arial";
-        // ctx.fillText("Lives: " + GameManager.lives, 700, 20);
-
-
-        // --- Score ---
-        // ctx.fillStyle = "white";
-        // ctx.font = "20px Arial";
-        // ctx.fillText("Score: " + GameManager.score, 10, 20); // top-right
-
-        // --- Waves ---
-        // ctx.fillStyle = "white";
-        // ctx.font = "20px Arial";
-        // ctx.fillText("Wave: " + GameManager.currentWave, 350, 20);
-
-
-        // --- Game Over ---
-        // if (GameManager.gameOver) {
-        //     ctx.fillStyle = "red";
-        //     ctx.font = "50px Arial";
-        //     ctx.fillText("GAME OVER", 200, 300);
-        // }
     }
 
 
