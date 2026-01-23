@@ -35,8 +35,6 @@ export default function Game() {
             lastTime = time;
 
             // Clear
-            // ctx.fillStyle = "black";
-            // ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             gameManager.update(delta, input);
