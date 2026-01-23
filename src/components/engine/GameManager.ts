@@ -71,9 +71,9 @@ export class GameManager {
     }
 
     draw(ctx: CanvasRenderingContext2D) {
-        // Clear the canvas first!
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, GameManager.screenWidth, GameManager.screenHeight);
+        // // Clear the canvas first!
+        // ctx.fillStyle = "black";
+        // ctx.fillRect(0, 0, GameManager.screenWidth, GameManager.screenHeight);
 
         // Draw GameObjects
         this.playerManager.draw(ctx);
