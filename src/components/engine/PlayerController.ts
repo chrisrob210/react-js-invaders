@@ -6,7 +6,7 @@ import { isCollision } from "../logic/collision";
 import { GameManager } from "./GameManager";
 
 
-export class PlayerManager {
+export class PlayerController {
     player: Player;
     bullets: Bullet[];
 
