@@ -1,5 +1,5 @@
-import { PlayerManager } from "./PlayerManager";
-import { EnemyManager } from "./EnemyManager";
+import { PlayerController } from "./PlayerController";
+import { EnemyController } from "./EnemyController";
 import { UIManager } from "./UIManager";
 import { KeyboardInput } from "../../controls/KeyboardInput";
 import { GameObject } from "../gameobjects/GameObject";
@@ -14,8 +14,8 @@ export class GameManager {
     static screenHeight: number = 600;
 
     gameObjects: GameObject[] = [];
-    playerManager: PlayerManager;
-    enemyManager: EnemyManager;
+    playerManager: PlayerController;
+    enemyManager: EnemyController;
     uiManager: UIManager;
 
     // player values
@@ -48,8 +48,8 @@ export class GameManager {
         this.enemyDirection = 1;
         this.enemySpeed = 0.1;
 
-        this.playerManager = new PlayerManager();
-        this.enemyManager = new EnemyManager();
+        this.playerManager = new PlayerController();
+        this.enemyManager = new EnemyController();
         this.enemyManager.createEnemyGrid();
         this.uiManager = new UIManager();
     }
