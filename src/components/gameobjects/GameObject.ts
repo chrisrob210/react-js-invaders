@@ -59,5 +59,5 @@ export abstract class GameObject {
 
     abstract update(delta: number, input?: KeyboardInput): void;
 
-    abstract draw(ctx: CanvasRenderingContext2D): void;
+    abstract draw(): void;
 }

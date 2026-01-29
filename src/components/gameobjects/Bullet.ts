@@ -1,5 +1,6 @@
 import { GameObject } from "./GameObject";
 import { KeyboardInput } from "../../controls/KeyboardInput";
+import { CanvasContext } from "../engine/CanvasContext";
 
 export class Bullet extends GameObject {
     x = 0;
@@ -40,7 +41,8 @@ export class Bullet extends GameObject {
         this.y -= this.speed * delta;
     }
 
-    draw(ctx: CanvasRenderingContext2D): void {
+    draw(): void {
+        const ctx = CanvasContext.getInstance().getContext();
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 

@@ -1,6 +1,7 @@
 import { GameManager } from "../engine/GameManager";
 import { GameObject } from "./GameObject";
 import { KeyboardInput } from "../../controls/KeyboardInput";
+import { CanvasContext } from "../engine/CanvasContext";
 
 
 export class Enemy extends GameObject {
@@ -57,14 +58,8 @@ export class Enemy extends GameObject {
         // }
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        // ctx.fillStyle = this.color;
-        // ctx.fillRect(
-        //     this.x,
-        //     this.y,
-        //     this.width,
-        //     this.height
-        // );
+    draw() {
+        const ctx = CanvasContext.getInstance().getContext();
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }

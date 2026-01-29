@@ -1,4 +1,5 @@
 import { KeyboardInput } from "../../controls/KeyboardInput";
+import { CanvasContext } from "../engine/CanvasContext";
 export class Background {
     x: number;
     y: number;
@@ -19,7 +20,8 @@ export class Background {
         input;
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw() {
+        const ctx = CanvasContext.getInstance().getContext();
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }

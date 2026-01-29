@@ -41,9 +41,9 @@ export class EnemyController {
         });
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw() {
         this.enemies.forEach((enemy: Enemy) => {
-            enemy.draw(ctx);
+            enemy.draw();
         })
     }
 

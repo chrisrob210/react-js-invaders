@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { GameManager } from "./engine/GameManager";
 import { KeyboardInput } from "../controls/KeyboardInput";
+import { CanvasContext } from "./engine/CanvasContext";
 
 export default function Game() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -13,6 +14,9 @@ export default function Game() {
         const context = canvas.getContext("2d");
         if (!context) return;
         const ctx = context
+
+        // Initialize CanvasContext singleton
+        CanvasContext.getInstance().setContext(ctx);
 
         canvas.width = GameManager.screenWidth;
         canvas.height = GameManager.screenHeight;
@@ -38,7 +42,7 @@ export default function Game() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             gameManager.update(delta, input);
-            gameManager.draw(ctx);
+            gameManager.draw();
 
             requestAnimationFrame(loop);
         }

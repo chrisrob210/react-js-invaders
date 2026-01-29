@@ -70,15 +70,10 @@ export class GameManager {
         this.uiManager.update(delta, input);
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        // // Clear the canvas first!
-        // ctx.fillStyle = "black";
-        // ctx.fillRect(0, 0, GameManager.screenWidth, GameManager.screenHeight);
-
+    draw() {
         // Draw GameObjects
-        this.playerManager.draw(ctx);
-        this.enemyManager.draw(ctx);
-        this.uiManager.draw(ctx);
-
+        this.playerManager.draw();
+        this.enemyManager.draw();
+        this.uiManager.draw();
     }
 }

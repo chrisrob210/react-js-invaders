@@ -1,6 +1,7 @@
 import { GameObject } from "./GameObject";
 import { KeyboardInput } from "../../controls/KeyboardInput";
 import { GameManager } from "../engine/GameManager";
+import { CanvasContext } from "../engine/CanvasContext";
 
 export class Player extends GameObject {
     x = 375;
@@ -36,14 +37,8 @@ export class Player extends GameObject {
         // ? This might be the best place for it (maybe?)
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        // ctx.fillStyle = "white";
-        // ctx.fillRect(
-        //     this.x,
-        //     this.y,
-        //     this.width,
-        //     this.height
-        // );
+    draw() {
+        const ctx = CanvasContext.getInstance().getContext();
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }

@@ -26,16 +26,16 @@ export class UIManager {
         this.labelWave.setText("Wave: " + GameManager.currentWave);
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        this.labelLives.draw(ctx);
-        this.labelScore.draw(ctx);
-        this.labelWave.draw(ctx);
+    draw() {
+        this.labelLives.draw();
+        this.labelScore.draw();
+        this.labelWave.draw();
         if (GameManager.gameOver) {
-            this.labelGameOver.draw(ctx);
+            this.labelGameOver.draw();
         }
 
         if (GameManager.pause === true) {
-            this.pauseMenu.draw(ctx);
+            this.pauseMenu.draw();
         }
     }
 }

@@ -1,5 +1,6 @@
 import { GameObject } from "../gameobjects/GameObject";
 import { KeyboardInput } from "../../controls/KeyboardInput";
+import { CanvasContext } from "../engine/CanvasContext";
 
 export class Label extends GameObject {
     font: string = "";
@@ -35,7 +36,8 @@ export class Label extends GameObject {
         input;
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw() {
+        const ctx = CanvasContext.getInstance().getContext();
         ctx.fillStyle = this.color!;
         ctx.font = this.font;
         ctx.fillText(this.text, this.x, this.y);

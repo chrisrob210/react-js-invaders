@@ -16,8 +16,8 @@ export class PauseMenu {
         this.labelPause.update(delta, input);
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        this.background.draw(ctx);
-        this.labelPause.draw(ctx);
+    draw() {
+        this.background.draw();
+        this.labelPause.draw();
     }
 }

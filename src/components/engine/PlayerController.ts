@@ -126,9 +126,9 @@ export class PlayerController {
     //     });
     // }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        this.player.draw(ctx);
-        this.bullets.forEach((bullet: Bullet) => { bullet.draw(ctx); });
+    draw() {
+        this.player.draw();
+        this.bullets.forEach((bullet: Bullet) => { bullet.draw(); });
     }
 
     getPlayer() {
